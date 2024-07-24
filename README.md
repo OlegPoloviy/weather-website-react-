@@ -1,1 +1,3 @@
-This is web application which shows current weather for your region =)
+# 🌦️  React weather station
+At this website you can get current weather for your region.
+Currently, **in** **development**
