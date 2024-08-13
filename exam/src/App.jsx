@@ -8,7 +8,7 @@ function App() {
     <>
       <div>
           <WeatherPage/>
-          <Meteorologist/>
+          {/*<Meteorologist/>*/}
       </div>
     </>
   )
