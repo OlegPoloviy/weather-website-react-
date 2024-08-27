@@ -1,6 +1,7 @@
 import { getPlaceholderWeather } from "../store/slices/weather.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import Video from '../assets/8016-206146117_small.mp4';
 import "../styles/weatherPage.scss";
 
 export function WeatherPage() {
@@ -11,6 +12,7 @@ export function WeatherPage() {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [currentTemperature, setCurrentTemperature] = useState(null);
 
+    // Оновлення часу
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTime(new Date());
@@ -18,6 +20,10 @@ export function WeatherPage() {
 
         return () => clearInterval(interval);
     }, []);
+
+    useEffect(() => {
+        dispatch(getPlaceholderWeather());
+    }, [dispatch]);
 
     useEffect(() => {
         const hours = currentTime.getHours();
@@ -33,11 +39,9 @@ export function WeatherPage() {
             setMessage("I don't know what time exactly you have now :(");
         }
 
-        // Логування даних
         console.log("Weather data:", weather);
 
         if (weather && weather.hourly) {
-            // Знаходимо індекс поточної години
             const currentHourIndex = weather.hourly.time.findIndex((timeString) => {
                 const date = new Date(timeString);
                 return date.getHours() === hours;
@@ -62,18 +66,20 @@ export function WeatherPage() {
 
     return (
         <>
-            <div>
-                <button onClick={() => dispatch(getPlaceholderWeather())}>
-                    Show weather
-                </button>
-                <div>
-                    <h2>{message}</h2>
-                    <h2>
-                        {hours}:{minutes}:{seconds}
-                    </h2>
-                    {currentTemperature !== null && (
-                        <h3>Current Temperature: {currentTemperature}°C</h3>
-                    )}
+            <div className={"container"}>
+                <video autoPlay loop muted className={"video"}>
+                    <source src={Video} />
+                </video>
+                <div className={"weather-container"}>
+                    <h2 className={"message"}>{message}</h2>
+                    <div className={"time_weather"}>
+                        <h2 className={"time"}>
+                            {hours}:{minutes}:{seconds}
+                        </h2>
+                        {currentTemperature !== null && (
+                            <h3 className={"weather_current"}>{currentTemperature}°C</h3>
+                        )}
+                    </div>
                 </div>
             </div>
         </>
