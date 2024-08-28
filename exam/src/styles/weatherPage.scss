@@ -5,18 +5,19 @@
 
 .weather-container {
   position: relative;
-  width: 40%;
+  width: 50%;
   top: 60vh;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   .message{
     font-weight: bold;
     color: white;
-    font-size: 60px;
+    font-size: 50px;
     font-family: Roboto, serif;
   }
   .time_weather{
-    font-size: 40px;
+    font-size: 30px;
     color: white;
   }
   .weather-current{
@@ -24,6 +25,9 @@
     color: white;
   }
 
+  .image-container img{
+    width: 50px;
+  }
 }
 video{
   position: absolute;

@@ -2,6 +2,7 @@ import { getPlaceholderWeather } from "../store/slices/weather.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import Video from '../assets/8016-206146117_small.mp4';
+import Sun from "../assets/sun-removebg-preview.png"
 import "../styles/weatherPage.scss";
 
 export function WeatherPage() {
@@ -9,6 +10,7 @@ export function WeatherPage() {
     const weather = useSelector((store) => store);
 
     const [message, setMessage] = useState("");
+    const [weatherIcon,setWeatherIcon] = useState(Sun);
     const [currentTime, setCurrentTime] = useState(new Date());
     const [currentTemperature, setCurrentTemperature] = useState(null);
 
@@ -40,6 +42,10 @@ export function WeatherPage() {
         }
 
         console.log("Weather data:", weather);
+
+        if(weather.hourly && weather.hourly.precipitation[0] === 0){
+            setWeatherIcon(Sun);
+        }
 
         if (weather && weather.hourly) {
             const currentHourIndex = weather.hourly.time.findIndex((timeString) => {
@@ -79,6 +85,9 @@ export function WeatherPage() {
                         {currentTemperature !== null && (
                             <h3 className={"weather_current"}>{currentTemperature}°C</h3>
                         )}
+                    </div>
+                    <div className={"image-container"}>
+                        <img src={weatherIcon} alt=""/>
                     </div>
                 </div>
             </div>
