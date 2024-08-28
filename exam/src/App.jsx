@@ -6,7 +6,7 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className={"general"}>
           <WeatherPage/>
           {/*<Meteorologist/>*/}
       </div>

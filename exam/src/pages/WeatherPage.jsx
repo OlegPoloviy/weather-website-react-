@@ -1,6 +1,7 @@
 import { getPlaceholderWeather } from "../store/slices/weather.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import {ListWeather} from "../components/ListWeather.jsx";
 import Video from '../assets/8016-206146117_small.mp4';
 import Sun from "../assets/sun-removebg-preview.png"
 import "../styles/weatherPage.scss";
@@ -14,7 +15,6 @@ export function WeatherPage() {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [currentTemperature, setCurrentTemperature] = useState(null);
 
-    // Оновлення часу
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTime(new Date());
@@ -91,6 +91,7 @@ export function WeatherPage() {
                     </div>
                 </div>
             </div>
+            <ListWeather/>
         </>
     );
 }
