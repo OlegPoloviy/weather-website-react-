@@ -24,7 +24,7 @@ export function ListWeather(){
                     {
                             Boolean(weather.hourly) && weather.hourly.time.map((el, id) => (
                                 <div key={id}>
-                                    {el.split('T')[1]}
+                                    {el.split("T").join("-")}
                                 </div>
                             ))
                         }
