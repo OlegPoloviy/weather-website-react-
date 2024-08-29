@@ -1,28 +1,38 @@
+::-webkit-scrollbar{
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-thumb{
+  border-radius: 10%;
+  border: 3px solid #f1f1f1;
+}
+
 .allWeatherList {
   width: 20%;
   height: 100vh;
   position: relative;
-  background-color: #937FD0;
+  background-color: rgba(255, 255, 255, 0.5);
   left: 80.5%;
   bottom: 100vh;
   display: flex;
   overflow-y: scroll;
   justify-content: space-around;
-  opacity: 75%;
   border-radius: 3% 0 0 0;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .fixedTime {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   margin: 0;
   position: fixed;
   left: 80.5vw;
   background-color: #555555;
   width: 20%;
+  z-index: 150;
   opacity: 75%;
-  border-radius: 10px;
+  //border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 

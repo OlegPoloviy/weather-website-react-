@@ -1,9 +1,10 @@
 import { getPlaceholderWeather } from "../store/slices/weather.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import {ListWeather} from "../components/ListWeather.jsx";
-import Video from '../assets/8016-206146117_small.mp4';
-import Sun from "../assets/sun-removebg-preview.png"
+import { BurgerMenu } from "../components/BurgerMenu.jsx";
+import { ListWeather } from "../components/ListWeather.jsx";
+import Video from '../assets/night_city.mp4';
+import Sun from "../assets/sun-removebg-preview.png";
 import "../styles/weatherPage.scss";
 
 export function WeatherPage() {
@@ -11,7 +12,8 @@ export function WeatherPage() {
     const weather = useSelector((store) => store);
 
     const [message, setMessage] = useState("");
-    const [weatherIcon,setWeatherIcon] = useState(Sun);
+    const [showList, setStatusList] = useState(false);
+    const [weatherIcon, setWeatherIcon] = useState(Sun);
     const [currentTime, setCurrentTime] = useState(new Date());
     const [currentTemperature, setCurrentTemperature] = useState(null);
 
@@ -41,9 +43,7 @@ export function WeatherPage() {
             setMessage("I don't know what time exactly you have now :(");
         }
 
-        console.log("Weather data:", weather);
-
-        if(weather.hourly && weather.hourly.precipitation[0] === 0){
+        if (weather.hourly && weather.hourly.precipitation[0] === 0) {
             setWeatherIcon(Sun);
         }
 
@@ -53,16 +53,9 @@ export function WeatherPage() {
                 return date.getHours() === hours;
             });
 
-            console.log("Current hour index:", currentHourIndex);
-
-            // Встановлюємо температуру для поточної години
             if (currentHourIndex !== -1) {
                 setCurrentTemperature(weather.hourly.temperature_2m[currentHourIndex]);
-            } else {
-                console.log("Current hour index not found");
             }
-        } else {
-            console.log("Weather data or hourly data is not available");
         }
     }, [currentTime, weather]);
 
@@ -76,6 +69,12 @@ export function WeatherPage() {
                 <video autoPlay loop muted className={"video"}>
                     <source src={Video} />
                 </video>
+                <div className={"Burger"} onClick={() => setStatusList(true)}>
+                    {
+                        !showList &&
+                        <BurgerMenu />
+                    }
+                </div>
                 <div className={"weather-container"}>
                     <h2 className={"message"}>{message}</h2>
                     <div className={"time_weather"}>
@@ -87,11 +86,14 @@ export function WeatherPage() {
                         )}
                     </div>
                     <div className={"image-container"}>
-                        <img src={weatherIcon} alt=""/>
+                        <img src={weatherIcon} alt="" />
                     </div>
                 </div>
             </div>
-            <ListWeather/>
+            {
+                showList &&
+                <ListWeather showList={showList} setStatusList={setStatusList} />
+            }
         </>
     );
 }

@@ -6,6 +6,13 @@
   position: relative;
   height: 100vh;
   display: flex;
+  .Burger{
+    display: flex;
+    width: 10%;
+    right: -15vh;
+    position: absolute;
+    z-index: 120;
+  }
 }
 
 .weather-container {
@@ -35,6 +42,7 @@
   .image-container img{
     width: 50px;
   }
+
 }
 video{
   position: absolute;

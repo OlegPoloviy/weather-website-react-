@@ -1,14 +1,14 @@
-import {WeatherPage} from "./pages/WeatherPage.jsx";
+import {Navbar} from "./components/Navbar.jsx";
 import './App.css'
-import {Meteorologist} from "./components/Meteorologist.jsx";
+import {Outlet} from "react-router-dom";
 
 function App() {
 
   return (
     <>
       <div className={"general"}>
-          <WeatherPage/>
-          {/*<Meteorologist/>*/}
+          <Navbar/>
+          <Outlet/>
       </div>
     </>
   )
