@@ -1,15 +1,22 @@
 import { getPlaceholderWeather } from "../store/slices/weather.slice";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect , useRef } from "react";
 import { BurgerMenu } from "../components/BurgerMenu.jsx";
 import { ListWeather } from "../components/ListWeather.jsx";
-import Video from '../assets/night_city.mp4';
+import { useSpring,animated } from '@react-spring/web';
+import { ThemeChangeButton } from "../components/ThemeChangeButton.jsx";
+import VideoNight from '../assets/night_city.mp4';
+import VideoDay from "../assets/8016-206146117_small.mp4";
 import Sun from "../assets/sun-removebg-preview.png";
 import "../styles/weatherPage.scss";
+import {toggleTheme} from "../store/slices/themeSlice.jsx";
 
 export function WeatherPage() {
+
     const dispatch = useDispatch();
-    const weather = useSelector((store) => store);
+    const weather = useSelector((store) => store.weatherReducer);
+    const theme = useSelector((store) => store.themeReducer);
+    const videoRef = useRef(null);
 
     const [message, setMessage] = useState("");
     const [showList, setStatusList] = useState(false);
@@ -28,6 +35,12 @@ export function WeatherPage() {
     useEffect(() => {
         dispatch(getPlaceholderWeather());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.load();
+        }
+    }, [theme]);
 
     useEffect(() => {
         const hours = currentTime.getHours();
@@ -63,17 +76,17 @@ export function WeatherPage() {
     const minutes = String(currentTime.getMinutes()).padStart(2, "0");
     const seconds = String(currentTime.getSeconds()).padStart(2, "0");
 
+    const videoSrc = theme ? VideoDay : VideoNight;
+
     return (
         <>
             <div className={"container"}>
-                <video autoPlay loop muted className={"video"}>
-                    <source src={Video} />
+                <video autoPlay loop muted className="video" ref={videoRef}>
+                    <source src={videoSrc} type="video/mp4"/>
                 </video>
+                <ThemeChangeButton />
                 <div className={"Burger"} onClick={() => setStatusList(true)}>
-                    {
-                        !showList &&
-                        <BurgerMenu />
-                    }
+                    {!showList && <BurgerMenu />}
                 </div>
                 <div className={"weather-container"}>
                     <h2 className={"message"}>{message}</h2>
@@ -86,14 +99,13 @@ export function WeatherPage() {
                         )}
                     </div>
                     <div className={"image-container"}>
-                        <img src={weatherIcon} alt="" />
+                        <img src={weatherIcon} alt=""/>
                     </div>
                 </div>
             </div>
-            {
-                showList &&
-                <ListWeather showList={showList} setStatusList={setStatusList} />
-            }
+            {showList && (
+                    <ListWeather showList={showList} setStatusList={setStatusList} />
+            )}
         </>
     );
 }

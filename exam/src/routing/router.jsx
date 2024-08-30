@@ -1,7 +1,6 @@
 import {createBrowserRouter} from "react-router-dom";
 import App from "../App.jsx";
-import {ErrorPage} from "../pages/ErrorPage.jsx";
-import {WeatherPage} from "../pages/WeatherPage.jsx";
+import {WeatherPage,ErrorPage,MapPage} from "../pages";
 
 
 export const router = createBrowserRouter([
@@ -12,6 +11,10 @@ export const router = createBrowserRouter([
             {
                 path:"/",
                 Component:WeatherPage,
+            },
+            {
+                path:"/map",
+                Component:MapPage
             }
         ]
 

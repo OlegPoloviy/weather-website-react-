@@ -6,14 +6,15 @@ export function Navbar(){
         <>
             <div className={"navbar"}>
                 <ul>
-                    <NavLink to="/">
+                    <NavLink className={({ isActive }) => isActive ? 'active' : ''} to="/">
                         <li>Home</li>
                     </NavLink>
-                    <NavLink to={"*"}>
+                    <NavLink to={"/map"} className={({ isActive }) => isActive ? 'active' : ''}>
                         <li>To map</li>
                     </NavLink>
-                    <li></li>
-                    <li></li>
+                    <NavLink to={"/about"} className={({ isActive }) => isActive ? 'active' : ''}>
+                        <li>About this project</li>
+                    </NavLink>
                 </ul>
             </div>
         </>
