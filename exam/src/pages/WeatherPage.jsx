@@ -8,6 +8,8 @@ import { ThemeChangeButton } from "../components/ThemeChangeButton.jsx";
 import VideoNight from '../assets/night_city.mp4';
 import VideoDay from "../assets/8016-206146117_small.mp4";
 import Sun from "../assets/sun-removebg-preview.png";
+import Cloudy from "../assets/cloudy-removebg-preview.png"
+import Rain from "../assets/rain.png"
 import "../styles/weatherPage.scss";
 import {toggleTheme} from "../store/slices/themeSlice.jsx";
 
@@ -20,7 +22,7 @@ export function WeatherPage() {
 
     const [message, setMessage] = useState("");
     const [showList, setStatusList] = useState(false);
-    const [weatherIcon, setWeatherIcon] = useState(Sun);
+    const [weatherIcon, setWeatherIcon] = useState();
     const [currentTime, setCurrentTime] = useState(new Date());
     const [currentTemperature, setCurrentTemperature] = useState(null);
 
@@ -56,9 +58,6 @@ export function WeatherPage() {
             setMessage("I don't know what time exactly you have now :(");
         }
 
-        if (weather.hourly && weather.hourly.precipitation[0] === 0) {
-            setWeatherIcon(Sun);
-        }
 
         if (weather && weather.hourly) {
             const currentHourIndex = weather.hourly.time.findIndex((timeString) => {
@@ -71,6 +70,30 @@ export function WeatherPage() {
             }
         }
     }, [currentTime, weather]);
+
+    //setting the weather icon depending on current hour
+    useEffect(() => {
+        if (weather.hourly && weather.hourly.time && weather.hourly.precipitation) {
+            const currentHour = new Date().getHours();
+
+            const currentHourIndex = weather.hourly.time.findIndex((timeString) => {
+                const date = new Date(timeString);
+                return date.getHours() === currentHour;
+            });
+
+            if (currentHourIndex !== -1) {
+                const precipitation = weather.hourly.precipitation[currentHourIndex];
+
+                if (precipitation === 0) {
+                    setWeatherIcon(Sun);
+                } else if (precipitation === 45 || precipitation === 48) {
+                    setWeatherIcon(Cloudy);
+                } else if (precipitation === 61 || precipitation === 63 || precipitation === 65){
+                    setWeatherIcon(Rain)
+                }
+            }
+        }
+    }, [weather, currentTime]);
 
     const hours = currentTime.getHours();
     const minutes = String(currentTime.getMinutes()).padStart(2, "0");
