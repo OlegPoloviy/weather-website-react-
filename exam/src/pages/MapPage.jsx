@@ -1,10 +1,67 @@
+import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchCurrentLocation } from "../store/slices/geolocationSlice.jsx";
 import "../styles/map.scss";
 
-export function MapPage(){
+export function MapPage() {
+    const dispatch = useDispatch();
+    const { position, error } = useSelector(store => store.geolocationReducer);
 
-    return(
+    useEffect(() => {
+        dispatch(fetchCurrentLocation());
+    }, [dispatch]);
+
+    if (error) {
+        return (
+            <h2 style={{ color: "red" }}>Error getting location</h2>
+        );
+    }
+
+    const darkMapStyle = [
+        { "elementType": "geometry", "stylers": [{ "color": "#212121" }] },
+        { "elementType": "labels.icon", "stylers": [{ "visibility": "off" }] },
+        { "elementType": "labels.text.fill", "stylers": [{ "color": "#757575" }] },
+        { "elementType": "labels.text.stroke", "stylers": [{ "color": "#212121" }] },
+        { "featureType": "administrative", "elementType": "geometry", "stylers": [{ "color": "#757575" }] },
+        { "featureType": "administrative.country", "elementType": "labels.text.fill", "stylers": [{ "color": "#9e9e9e" }] },
+        { "featureType": "administrative.land_parcel", "stylers": [{ "visibility": "off" }] },
+        { "featureType": "administrative.locality", "elementType": "labels.text.fill", "stylers": [{ "color": "#bdbdbd" }] },
+        { "featureType": "poi", "elementType": "labels.text.fill", "stylers": [{ "color": "#757575" }] },
+        { "featureType": "poi.park", "elementType": "geometry", "stylers": [{ "color": "#181818" }] },
+        { "featureType": "poi.park", "elementType": "labels.text.fill", "stylers": [{ "color": "#616161" }] },
+        { "featureType": "poi.park", "elementType": "labels.text.stroke", "stylers": [{ "color": "#1b1b1b" }] },
+        { "featureType": "road", "elementType": "geometry.fill", "stylers": [{ "color": "#2c2c2c" }] },
+        { "featureType": "road", "elementType": "labels.text.fill", "stylers": [{ "color": "#8a8a8a" }] },
+        { "featureType": "road.arterial", "elementType": "geometry", "stylers": [{ "color": "#373737" }] },
+        { "featureType": "road.highway", "elementType": "geometry", "stylers": [{ "color": "#3c3c3c" }] },
+        { "featureType": "road.highway.controlled_access", "elementType": "geometry", "stylers": [{ "color": "#4e4e4e" }] },
+        { "featureType": "road.local", "elementType": "labels.text.fill", "stylers": [{ "color": "#616161" }] },
+        { "featureType": "transit", "elementType": "labels.text.fill", "stylers": [{ "color": "#757575" }] },
+        { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#000000" }] },
+        { "featureType": "water", "elementType": "labels.text.fill", "stylers": [{ "color": "#3d3d3d" }] }
+    ];
+
+    return (
         <>
-            <h2 style={{marginTop:"200px"}}>This is map</h2>
+            <APIProvider apiKey={"AIzaSyBlx8eJR7JQHDkNLegFft5VDLf1Ibvmkxg"} onLoad={() => console.log("loaded")}>
+                <div className="map-container">
+                    {
+                        position &&
+                        <Map
+                            defaultZoom={13}
+                            defaultCenter={{ lat: position.lat, lng: position.lng }}
+                            mapStyles={darkMapStyle}
+                            onCameraChanged={(ev) =>
+                                console.log('camera changed:', ev.detail.center, 'zoom:', ev.detail.zoom)
+                            }>
+                            <Marker
+                                position={{ lat: position.lat, lng: position.lng }}
+                            />
+                        </Map>
+                    }
+                </div>
+            </APIProvider>
         </>
-    )
+    );
 }
