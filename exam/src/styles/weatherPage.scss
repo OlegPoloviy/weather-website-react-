@@ -26,17 +26,17 @@
   height: 10%;
   .message{
     font-weight: bold;
-    color: white;
+    color: rgba(255, 255, 255, 0.6);
     font-size: 50px;
     font-family: Roboto, serif;
   }
   .time_weather{
+    color: rgba(255, 255, 255, 0.6);
     font-size: 30px;
-    color: white;
   }
   .weather-current{
     font-size: 30px;
-    color: white;
+    color: rgba(255, 255, 255, 0.6);
   }
 
   .image-container img{

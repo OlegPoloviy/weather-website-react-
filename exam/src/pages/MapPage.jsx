@@ -44,7 +44,7 @@ export function MapPage() {
 
     return (
         <>
-            <APIProvider apiKey={"AIzaSyBlx8eJR7JQHDkNLegFft5VDLf1Ibvmkxg"} onLoad={() => console.log("loaded")}>
+            <APIProvider apiKey={"Api_key"} onLoad={() => console.log("loaded")}>
                 <div className="map-container">
                     {
                         position &&
