@@ -15,6 +15,9 @@ export function Navbar(){
                     <NavLink to={"/about"} className={({ isActive }) => isActive ? 'active' : ''}>
                         <li>About this project</li>
                     </NavLink>
+                    <NavLink to={"/stat"} className={({ isActive }) => isActive ? 'active' : ''}>
+                        <li>See more information about weather</li>
+                    </NavLink>
                 </ul>
             </div>
         </>
