@@ -1,6 +1,6 @@
 import {createBrowserRouter} from "react-router-dom";
 import App from "../App.jsx";
-import {WeatherPage,ErrorPage,MapPage,WeatherStat} from "../pages";
+import {WeatherPage,ErrorPage,MapPage,WeatherStat,AboutPage} from "../pages";
 
 
 export const router = createBrowserRouter([
@@ -19,6 +19,10 @@ export const router = createBrowserRouter([
             {
                 path:"/stat",
                 Component:WeatherStat
+            },
+            {
+                path:"/about",
+                Component:AboutPage
             }
         ]
 
